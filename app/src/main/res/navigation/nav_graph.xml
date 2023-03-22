@@ -11,6 +11,9 @@
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_food_recipes">
 
+        <action
+            android:id="@+id/action_foodRecipesFragment_to_filterBottomSheet"
+            app:destination="@id/filterBottomSheet" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
@@ -19,4 +22,12 @@
         tools:layout="@layout/fragment_favorites">
 
     </fragment>
+    <dialog
+        android:id="@+id/filterBottomSheet"
+        android:name="com.example.foodyrecipes.ui.recipes.bottom_sheet.FilterBottomSheet"
+        android:label="FilterBottomSheet" >
+        <action
+            android:id="@+id/action_filterBottomSheet_to_foodRecipesFragment"
+            app:destination="@id/foodRecipesFragment" />
+    </dialog>
 </navigation>

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.foodyrecipes.databinding.FoodItemBinding
 import com.example.foodyrecipes.data.network.dto.RecipeResult
 
-class FoodAdapter: ListAdapter<RecipeResult, FoodViewHolder>(DiffCallBack) {
+class FoodAdapter: ListAdapter<RecipeResult, FoodViewHolder>(DiffCallBack()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
         return FoodViewHolder.from(parent)
     }
@@ -18,15 +18,6 @@ class FoodAdapter: ListAdapter<RecipeResult, FoodViewHolder>(DiffCallBack) {
         holder.bind(item)
     }
 
-    companion object DiffCallBack: DiffUtil.ItemCallback<RecipeResult>(){
-        override fun areItemsTheSame(oldItem: RecipeResult, newItem: RecipeResult): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: RecipeResult, newItem: RecipeResult): Boolean {
-            return oldItem == newItem
-        }
-    }
 }
 
 class FoodViewHolder(
@@ -43,5 +34,15 @@ class FoodViewHolder(
             val binding = FoodItemBinding.inflate(layoutInflater, parent, false)
             return FoodViewHolder(binding)
         }
+    }
+}
+
+class DiffCallBack: DiffUtil.ItemCallback<RecipeResult>(){
+    override fun areItemsTheSame(oldItem: RecipeResult, newItem: RecipeResult): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: RecipeResult, newItem: RecipeResult): Boolean {
+        return oldItem == newItem
     }
 }

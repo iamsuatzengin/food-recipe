@@ -4,7 +4,7 @@ object Constants {
 
     const val BASE_URL = "https://api.spoonacular.com"
 
-    const val API_KEY = "1648acdf5a264b9faf0cb81ca14f0b20"
+    const val API_KEY = "YOUR_API_KEY"
 
     // API Query Keys
     const val QUERY_NUMBER = "number"
@@ -18,4 +18,10 @@ object Constants {
     const val DEFAULT_RECIPES_NUMBER = "50"
     const val DEFAULT_MEAL_TYPE = "main course"
     const val DEFAULT_DIET_TYPE = "gluten free"
+
+    const val PREFERENCES_NAME = "foody_preferences"
+    const val PREFERENCES_MEAL_TYPE_ID = "mealTypeId"
+    const val PREFERENCES_MEAL_TYPE = "mealType"
+    const val PREFERENCES_DIET_TYPE_ID = "dietTypeId"
+    const val PREFERENCES_DIET_TYPE = "dietType"
 }

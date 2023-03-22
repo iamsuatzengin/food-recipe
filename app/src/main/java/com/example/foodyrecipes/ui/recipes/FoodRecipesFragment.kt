@@ -11,7 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.foodyrecipes.R
 import com.example.foodyrecipes.databinding.FragmentFoodRecipesBinding
 import com.example.foodyrecipes.ui.recipes.adapter.FoodAdapter
 import com.example.foodyrecipes.util.NetworkListener
@@ -69,7 +71,7 @@ class FoodRecipesFragment : Fragment() {
                             else {
                                 result.data?.results!!.forEach {
                                     println("name: ${it.title}")
-                                    //adapter.submitList(result.data.results)
+                                    adapter.submitList(result.data.results)
                                 }
                             }
                             stopShimmer()
@@ -80,6 +82,11 @@ class FoodRecipesFragment : Fragment() {
                                 error message: ${result.errorMessage}
                             """.trimIndent()
                             )
+                            Toast.makeText(
+                                requireContext(),
+                                result.errorMessage,
+                                Toast.LENGTH_SHORT
+                            ).show()
                             stopShimmer()
                         }
                     }
@@ -94,6 +101,10 @@ class FoodRecipesFragment : Fragment() {
             }else{
                 Toast.makeText(requireContext(), "no internet", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        binding.filterFab.setOnClickListener {
+            findNavController().navigate(R.id.action_foodRecipesFragment_to_filterBottomSheet)
         }
 
     }

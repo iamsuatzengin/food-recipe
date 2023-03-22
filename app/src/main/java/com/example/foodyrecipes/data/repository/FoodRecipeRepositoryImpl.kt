@@ -23,11 +23,10 @@ class FoodRecipeRepositoryImpl @Inject constructor(
             delay(3000)
             try {
                 val api = apiService.getRecipes(queries)
-                if (api.isSuccessful) {
-                    emit(NetworkResult.Success(data = api.body()))
-                } else {
-                    emit(NetworkResult.Error("Bilinmeyen bir hata! ${api.code()}"))
+                if (!api.isSuccessful) {
+                    throw HttpException(api)
                 }
+                emit(NetworkResult.Success(data = api.body()))
             } catch (e: Exception) {
                 emit(resolveError(exception = e))
             }
