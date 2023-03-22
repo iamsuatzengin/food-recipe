@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -59,6 +60,40 @@ class FoodRecipesFragment : Fragment() {
 
         setupRecyclerView()
 
+        observeFoodRecipes()
+
+        viewModel.networkStatus.observe(viewLifecycleOwner) {
+            if (it) {
+                viewModel.getRecipes()
+                Toast.makeText(requireContext(), "Bağlandı", Toast.LENGTH_SHORT).show()
+                binding.noInternetConnectionLayout.root.visibility = View.INVISIBLE
+            } else {
+                Toast.makeText(requireContext(), "no internet", Toast.LENGTH_SHORT).show()
+                binding.noInternetConnectionLayout.root.visibility = View.VISIBLE
+                stopShimmer()
+            }
+        }
+
+        binding.filterFab.setOnClickListener {
+            findNavController().navigate(R.id.action_foodRecipesFragment_to_filterBottomSheet)
+        }
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if(!query.isNullOrEmpty()){
+                    searchFoodRecipe(query = query)
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
+
+    }
+
+    private fun observeFoodRecipes() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { result ->
@@ -77,11 +112,6 @@ class FoodRecipesFragment : Fragment() {
                             stopShimmer()
                         }
                         is NetworkResult.Error -> {
-                            println(
-                                """
-                                error message: ${result.errorMessage}
-                            """.trimIndent()
-                            )
                             Toast.makeText(
                                 requireContext(),
                                 result.errorMessage,
@@ -94,28 +124,38 @@ class FoodRecipesFragment : Fragment() {
                 }
             }
         }
-        viewModel.networkStatus.observe(viewLifecycleOwner){
-            if(it){
-                viewModel.getRecipes()
-                Toast.makeText(requireContext(), "Bağlandı", Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(requireContext(), "no internet", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        binding.filterFab.setOnClickListener {
-            findNavController().navigate(R.id.action_foodRecipesFragment_to_filterBottomSheet)
-        }
-
     }
 
-    private fun setupRecyclerView(){
+    private fun searchFoodRecipe(query: String) {
+        viewModel.searchRecipes(query = query)
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.searchedRecipeState.collect { result ->
+                    when(result){
+                        is NetworkResult.Loading -> {
+                            binding.shimmerLayout.startShimmer()
+                        }
+                        is NetworkResult.Success -> {
+                            if (result.data?.results.isNullOrEmpty()) println("liste boş")
+                            else {
+                                adapter.submitList(result.data?.results!!)
+                            }
+                            stopShimmer()
+                        }
+                        is NetworkResult.Error -> {}
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setupRecyclerView() {
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
     }
 
-    private fun stopShimmer(){
+    private fun stopShimmer() {
         binding.shimmerLayout.stopShimmer()
         binding.shimmerLayout.visibility = View.INVISIBLE
     }

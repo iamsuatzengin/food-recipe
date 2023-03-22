@@ -7,4 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface FoodRecipeRepository {
 
     fun getRecipes(queries: Map<String, String>): Flow<NetworkResult<FoodRecipe>>
+
+    fun searchRecipes(searchQuery: Map<String, String>): Flow<NetworkResult<FoodRecipe>>
 }

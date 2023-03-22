@@ -20,9 +20,9 @@ class FoodRecipeRepositoryImpl @Inject constructor(
     override fun getRecipes(queries: Map<String, String>): Flow<NetworkResult<FoodRecipe>> {
         return flow {
             emit(NetworkResult.Loading)
-            delay(3000)
+            delay(1000)
             try {
-                val api = apiService.getRecipes(queries)
+                val api = apiService.getRecipes(queries = queries)
                 if (!api.isSuccessful) {
                     throw HttpException(api)
                 }
@@ -32,9 +32,25 @@ class FoodRecipeRepositoryImpl @Inject constructor(
             }
         }.flowOn(ioDispatchers)
     }
+
+    override fun searchRecipes(searchQuery: Map<String, String>): Flow<NetworkResult<FoodRecipe>> {
+        return flow {
+            emit(NetworkResult.Loading)
+            try {
+                val search = apiService.searchRecipes(searchQuery = searchQuery)
+                if(!search.isSuccessful){
+                    throw HttpException(search)
+                }
+                emit(NetworkResult.Success(data = search.body()))
+            }catch (e: Exception){
+                emit(resolveError(exception = e))
+            }
+        }.flowOn(ioDispatchers)
+    }
 }
 
-private fun resolveError(exception: Exception): NetworkResult.Error {
+
+fun resolveError(exception: Exception): NetworkResult.Error {
 
     return when (exception) {
         is SocketTimeoutException -> {

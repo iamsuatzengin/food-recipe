@@ -8,6 +8,7 @@ import com.example.foodyrecipes.data.network.dto.FoodRecipe
 import com.example.foodyrecipes.data.repository.FoodRecipeRepository
 import com.example.foodyrecipes.di.IoDispatchers
 import com.example.foodyrecipes.util.Constants
+import com.example.foodyrecipes.util.Constants.QUERY_SEARCH
 import com.example.foodyrecipes.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -31,34 +32,39 @@ class FoodRecipesViewModel @Inject constructor(
         get() = _state
 
     private val _mealAndDietTypeState = MutableStateFlow(MealAndDietTypeState())
-
     val mealAndDietTypeState: StateFlow<MealAndDietTypeState>
         get() = _mealAndDietTypeState
+
+    private val _searchedRecipeState: MutableStateFlow<NetworkResult<FoodRecipe>> =
+        MutableStateFlow(NetworkResult.Loading)
+    val searchedRecipeState: StateFlow<NetworkResult<FoodRecipe>>
+        get() = _searchedRecipeState
 
     val networkStatus = MutableLiveData(false)
 
     init {
-        dataStoreRepository.getMealAndDietType.onEach { mealAndDietType ->
-            _mealAndDietTypeState.value = MealAndDietTypeState(
-                mealAndDietType.selectedMealType,
-                mealAndDietType.selectedMealTypeId,
-                mealAndDietType.selectedDietType,
-                mealAndDietType.selectedDietTypeId
-            )
-        }.launchIn(viewModelScope)
+        getMealAndDietType()
     }
+
     fun getRecipes() {
         foodRecipeRepository.getRecipes(applyQueries()).onEach { result ->
             _state.value = result
         }.launchIn(viewModelScope)
     }
 
+    fun searchRecipes(query: String) {
+        foodRecipeRepository.searchRecipes(applySearchQuery(query = query)).onEach { result ->
+            _searchedRecipeState.value = result
+        }.launchIn(viewModelScope)
+    }
+
+
     fun saveMealAndDietType(
         mealType: String,
         mealTypeId: Int,
         dietType: String,
         dietTypeId: Int
-    ){
+    ) {
         viewModelScope.launch(ioDispatchers) {
             dataStoreRepository.saveMealAndDietType(
                 mealType = mealType,
@@ -69,10 +75,7 @@ class FoodRecipesViewModel @Inject constructor(
         }
     }
 
-    fun applyQueries(): HashMap<String, String> {
-        val queries: HashMap<String, String> = HashMap()
-
-
+    private fun getMealAndDietType() {
         dataStoreRepository.getMealAndDietType.onEach { mealAndDietType ->
             _mealAndDietTypeState.value = MealAndDietTypeState(
                 mealAndDietType.selectedMealType,
@@ -81,6 +84,12 @@ class FoodRecipesViewModel @Inject constructor(
                 mealAndDietType.selectedDietTypeId
             )
         }.launchIn(viewModelScope)
+    }
+
+    private fun applyQueries(): HashMap<String, String> {
+        val queries: HashMap<String, String> = HashMap()
+
+        getMealAndDietType()
 
         queries[Constants.QUERY_NUMBER] = Constants.DEFAULT_RECIPES_NUMBER
         queries[Constants.QUERY_API_KEY] = Constants.API_KEY
@@ -91,6 +100,17 @@ class FoodRecipesViewModel @Inject constructor(
 
         return queries
     }
+
+    private fun applySearchQuery(query: String): HashMap<String, String> {
+        val queries: HashMap<String, String> = HashMap()
+        queries[QUERY_SEARCH] = query
+        queries[Constants.QUERY_NUMBER] = Constants.DEFAULT_RECIPES_NUMBER
+        queries[Constants.QUERY_API_KEY] = Constants.API_KEY
+        queries[Constants.QUERY_ADD_RECIPE_INFORMATION] = "true"
+        queries[Constants.QUERY_FILL_INGREDIENTS] = "true"
+        return queries
+    }
+
 }
 
 data class MealAndDietTypeState(
