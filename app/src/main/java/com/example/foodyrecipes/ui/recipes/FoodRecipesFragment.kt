@@ -55,7 +55,8 @@ class FoodRecipesFragment : Fragment() {
             }
         }
 
-        val animation = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        val animation =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
         sharedElementEnterTransition = animation
         return binding.root
 
@@ -71,11 +72,10 @@ class FoodRecipesFragment : Fragment() {
         viewModel.networkStatus.observe(viewLifecycleOwner) {
             if (it) {
                 viewModel.getRecipes()
-                Toast.makeText(requireContext(), "Bağlandı", Toast.LENGTH_SHORT).show()
-                binding.noInternetConnectionLayout.root.visibility = View.INVISIBLE
+                setWifiAnimation(false)
             } else {
                 Toast.makeText(requireContext(), "no internet", Toast.LENGTH_SHORT).show()
-                binding.noInternetConnectionLayout.root.visibility = View.VISIBLE
+                setWifiAnimation(true)
                 stopShimmer()
             }
         }
@@ -177,6 +177,19 @@ class FoodRecipesFragment : Fragment() {
     private fun stopShimmer() {
         binding.shimmerLayout.stopShimmer()
         binding.shimmerLayout.visibility = View.INVISIBLE
+    }
+
+    private fun setWifiAnimation(visibility: Boolean) {
+        with(binding){
+            val animWifi = noInternetConnectionLayout.setAnimation()
+            if(visibility) {
+                animWifi.startAnimation()
+                noInternetConnectionLayout.visibility = View.VISIBLE
+                return
+            }
+            animWifi.stopAnimation()
+            noInternetConnectionLayout.visibility = View.INVISIBLE
+        }
     }
 
     override fun onDestroyView() {
