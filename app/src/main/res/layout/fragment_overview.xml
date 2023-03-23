@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="@dimen/_8dp"
     tools:context=".ui.detail.overview.OverviewFragment">
 
@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_16dp"
         android:layout_marginTop="@dimen/_16dp"
+        android:contentDescription="@string/icon_checkbox_circle"
         android:src="@drawable/ic_check_circle_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,6 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_8dp"
+        android:contentDescription="@string/icon_checkbox_circle"
         android:src="@drawable/ic_check_circle_24"
         app:layout_constraintStart_toStartOf="@id/iconCheckVegan"
         app:layout_constraintTop_toBottomOf="@id/iconCheckVegan" />
@@ -50,6 +52,7 @@
         android:id="@+id/iconCheckHealthy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/icon_checkbox_circle"
         android:src="@drawable/ic_check_circle_24"
         app:layout_constraintBottom_toBottomOf="@id/tvVegan"
         app:layout_constraintStart_toStartOf="@id/iconCheckVegetarian"
@@ -70,6 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_16dp"
+        android:contentDescription="@string/icon_checkbox_circle"
         android:src="@drawable/ic_check_circle_24"
         app:layout_constraintBottom_toBottomOf="@id/tvDairyFree"
         app:layout_constraintStart_toEndOf="@id/tvDairyFree"
@@ -90,6 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_16dp"
+        android:contentDescription="@string/icon_checkbox_circle"
         android:src="@drawable/ic_check_circle_24"
         app:layout_constraintBottom_toBottomOf="@id/tvVegetarian"
         app:layout_constraintStart_toEndOf="@id/tvVegetarian"
@@ -109,6 +114,7 @@
         android:id="@+id/iconCheckCheap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/icon_checkbox_circle"
         android:src="@drawable/ic_check_circle_24"
         app:layout_constraintBottom_toBottomOf="@id/tvHealthy"
         app:layout_constraintStart_toStartOf="@id/iconCheckGlutenFree"

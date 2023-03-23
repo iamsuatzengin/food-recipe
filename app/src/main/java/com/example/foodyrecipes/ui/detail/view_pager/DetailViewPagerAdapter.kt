@@ -1,4 +1,4 @@
-package com.example.foodyrecipes.ui.detail.adapter
+package com.example.foodyrecipes.ui.detail.view_pager
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,12 +9,12 @@ import com.example.foodyrecipes.ui.detail.overview.OverviewFragment
 class DetailViewPagerAdapter(
     fragment: Fragment,
     private val food: Bundle
-): FragmentStateAdapter(fragment) {
+) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment {
 
-        return when(position){
+        return when (position) {
             0 -> {
                 val overviewFragment = OverviewFragment()
                 overviewFragment.arguments = food

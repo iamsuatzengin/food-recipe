@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.foodyrecipes.databinding.FragmentDetailBinding
-import com.example.foodyrecipes.ui.detail.adapter.DetailViewPagerAdapter
+import com.example.foodyrecipes.ui.detail.view_pager.DetailViewPagerAdapter
 import com.example.foodyrecipes.util.Constants.FOOD_PAGER_KEY
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,7 +50,7 @@ class DetailFragment : Fragment() {
 
         val tabLayout = binding.tabLayout
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            when(position){
+            when (position) {
                 0 -> tab.text = "Overview"
                 1 -> tab.text = "Ingredients"
             }
