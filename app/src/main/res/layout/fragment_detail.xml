@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="foodRecipe"
+            type="com.example.foodyrecipes.data.network.dto.RecipeResult" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".ui.detail.DetailFragment">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivFood"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="centerCrop"
+                    loadImageFromUrl="@{foodRecipe.image}"
+                    android:transitionName="@{foodRecipe.image}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@tools:sample/avatars" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="@dimen/_36dp"
+                    app:layout_constraintBottom_toBottomOf="@id/ivFood"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardViewHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_16dp"
+                    app:cardCornerRadius="@dimen/_8dp"
+                    app:cardElevation="@dimen/_4dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="@dimen/_8dp"
+                    app:layout_constraintTop_toBottomOf="@id/view">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="@dimen/_8dp"
+                        android:padding="@dimen/_8dp">
+
+                        <TextView
+                            android:id="@+id/tvTitle"
+                            style="@style/TextAppearance.Material3.TitleLarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="2"
+                            android:text="@{foodRecipe.title}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Instant pot Rice Pilaf" />
+
+                        <ImageView
+                            android:id="@+id/iconFavorites"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4dp"
+                            android:src="@drawable/ic_favorite_24"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+                        <TextView
+                            android:id="@+id/tvFavorites"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            setNumberOfLikes="@{foodRecipe.aggregateLikes}"
+                            app:layout_constraintEnd_toEndOf="@id/iconFavorites"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/iconFavorites"
+                            tools:text="125" />
+
+                        <ImageView
+                            android:id="@+id/iconReadyInTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4dp"
+                            android:src="@drawable/ic_time_24"
+                            app:layout_constraintEnd_toStartOf="@id/iconServing"
+                            app:layout_constraintStart_toEndOf="@+id/iconFavorites"
+                            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+                        <TextView
+                            android:id="@+id/tvReadyInTime"
+                            android:layout_width="wrap_content"
+                            setNumberOfMinutes="@{foodRecipe.readyInMinutes}"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="@id/iconReadyInTime"
+                            app:layout_constraintStart_toStartOf="@id/iconReadyInTime"
+                            app:layout_constraintTop_toBottomOf="@id/iconReadyInTime"
+                            tools:text="45" />
+
+                        <ImageView
+                            android:id="@+id/iconServing"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4dp"
+                            android:src="@drawable/ic_person_24"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+                        <TextView
+                            android:id="@+id/tvServing"
+                            setNumberOfServing="@{foodRecipe.servings}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@id/iconServing"
+                            app:layout_constraintTop_toBottomOf="@id/iconServing"
+                            tools:text="8" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardViewHeader"
+                android:layout_marginTop="@dimen/_16dp" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tabLayout"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

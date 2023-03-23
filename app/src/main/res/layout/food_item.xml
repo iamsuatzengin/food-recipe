@@ -10,6 +10,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/foodCardView"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_margin="@dimen/_8dp"
@@ -26,6 +27,7 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 loadImageFromUrl="@{food.image}"
+                android:transitionName="@{food.image}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/avatars" />

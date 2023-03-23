@@ -1,17 +1,20 @@
 package com.example.foodyrecipes.ui.recipes
 
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodyrecipes.R
@@ -51,6 +54,9 @@ class FoodRecipesFragment : Fragment() {
                 viewModel.networkStatus.value = status
             }
         }
+
+        val animation = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        sharedElementEnterTransition = animation
         return binding.root
 
     }
@@ -80,7 +86,7 @@ class FoodRecipesFragment : Fragment() {
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                if(!query.isNullOrEmpty()){
+                if (!query.isNullOrEmpty()) {
                     searchFoodRecipe(query = query)
                 }
                 return true
@@ -91,6 +97,14 @@ class FoodRecipesFragment : Fragment() {
             }
         })
 
+        adapter.setItemOnClickListener { recipeResult, imageView ->
+            val action =
+                FoodRecipesFragmentDirections.actionFoodRecipesFragmentToDetailFragment(foodRecipe = recipeResult)
+            val extras = FragmentNavigatorExtras(
+                imageView to recipeResult.image
+            )
+            findNavController().navigate(action, extras)
+        }
     }
 
     private fun observeFoodRecipes() {
@@ -131,7 +145,7 @@ class FoodRecipesFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.searchedRecipeState.collect { result ->
-                    when(result){
+                    when (result) {
                         is NetworkResult.Loading -> {
                             binding.shimmerLayout.startShimmer()
                         }
@@ -153,6 +167,11 @@ class FoodRecipesFragment : Fragment() {
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+
+        postponeEnterTransition()
+        recyclerView.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
     }
 
     private fun stopShimmer() {

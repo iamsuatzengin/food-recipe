@@ -12,32 +12,36 @@ object BindingAdapters {
 
     @BindingAdapter("loadImageFromUrl")
     @JvmStatic
-    fun loadImageFromUrl(imageView: ImageView, url: String){
-        imageView.load(url){
+    fun loadImageFromUrl(imageView: ImageView, url: String) {
+        imageView.load(url) {
             crossfade(600)
         }
     }
 
-
     @BindingAdapter("setNumberOfLikes")
     @JvmStatic
-    fun setNumberOfLikes(textView: TextView, likes: Int){
+    fun setNumberOfLikes(textView: TextView, likes: Int) {
         textView.text = likes.toString()
     }
 
     @BindingAdapter("setNumberOfMinutes")
     @JvmStatic
-    fun setNumberOfMinutes(textView: TextView, min: Int){
+    fun setNumberOfMinutes(textView: TextView, min: Int) {
         textView.text = min.toString()
+    }
+
+    @BindingAdapter("setNumberOfServing")
+    @JvmStatic
+    fun setNumberOfServing(textView: TextView, serving: Int){
+        textView.text = serving.toString()
     }
 
     @BindingAdapter("veganColor")
     @JvmStatic
-    fun veganColor(view: View, isVegan: Boolean){
-        if(isVegan){
-            when(view){
+    fun veganColor(view: View, isVegan: Boolean) {
+        if (isVegan) {
+            when (view) {
                 is TextView -> ContextCompat.getColor(view.context, R.color.green)
-
                 is ImageView -> ContextCompat.getColor(view.context, R.color.green)
             }
         }

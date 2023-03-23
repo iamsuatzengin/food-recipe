@@ -6,6 +6,8 @@ object Constants {
 
     const val API_KEY = "1648acdf5a264b9faf0cb81ca14f0b20"
 
+    const val FOOD_PAGER_KEY = "FOOD_PAGER_KEY"
+
     // API Query Keys
     const val QUERY_NUMBER = "number"
     const val QUERY_API_KEY = "apiKey"
