@@ -27,4 +27,8 @@ object Constants {
     const val PREFERENCES_MEAL_TYPE = "mealType"
     const val PREFERENCES_DIET_TYPE_ID = "dietTypeId"
     const val PREFERENCES_DIET_TYPE = "dietType"
+
+    // ROOM DB
+    const val RECIPE_DB_NAME = "recipe_db"
+    const val FAVORITE_TABLE = "favorite_table"
 }

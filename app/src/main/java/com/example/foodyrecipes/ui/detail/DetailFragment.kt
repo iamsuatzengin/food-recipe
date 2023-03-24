@@ -6,13 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
+import com.example.foodyrecipes.R
+import com.example.foodyrecipes.data.local.entity.FavoriteEntity
 import com.example.foodyrecipes.databinding.FragmentDetailBinding
 import com.example.foodyrecipes.ui.detail.view_pager.DetailViewPagerAdapter
 import com.example.foodyrecipes.util.Constants.FOOD_PAGER_KEY
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
@@ -25,6 +34,7 @@ class DetailFragment : Fragment() {
     private lateinit var viewPagerAdapter: DetailViewPagerAdapter
     private lateinit var viewPager: ViewPager2
 
+    private val viewModel: DetailViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,7 +65,42 @@ class DetailFragment : Fragment() {
                 1 -> tab.text = "Ingredients"
             }
         }.attach()
+
+        observeEvent()
+
+        with(binding){
+            favoriteButton.setOnClickListener { addFavoriteRecipe() }
+        }
     }
+
+    private fun addFavoriteRecipe(){
+        val entity = FavoriteEntity(
+            id = 0, args.foodRecipe
+        )
+        viewModel.addFavoriteRecipe(entity = entity)
+        binding.favoriteButton.setImageResource(R.drawable.ic_bookmark_24)
+    }
+
+    private fun observeEvent(){
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.eventFlow.collectLatest { event ->
+                    when(event){
+                        is UiEvent.ShowMessage -> {
+                            showSnackbar(message = event.message)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT)
+            .setAction("Okay", null)
+            .show()
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

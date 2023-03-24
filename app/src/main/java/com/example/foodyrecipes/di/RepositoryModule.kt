@@ -1,5 +1,7 @@
 package com.example.foodyrecipes.di
 
+import com.example.foodyrecipes.data.repository.FavoriteRepository
+import com.example.foodyrecipes.data.repository.FavoriteRepositoryImpl
 import com.example.foodyrecipes.data.repository.FoodRecipeRepository
 import com.example.foodyrecipes.data.repository.FoodRecipeRepositoryImpl
 import dagger.Binds
@@ -16,4 +18,7 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun bindFoodRecipeRepository(foodRecipeRepositoryImpl: FoodRecipeRepositoryImpl): FoodRecipeRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindFavoriteRepository(favoriteRepositoryImpl: FavoriteRepositoryImpl): FavoriteRepository
 }

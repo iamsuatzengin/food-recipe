@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.widget.SearchView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,6 +21,7 @@ import com.example.foodyrecipes.databinding.FragmentFoodRecipesBinding
 import com.example.foodyrecipes.ui.recipes.adapter.FoodAdapter
 import com.example.foodyrecipes.util.NetworkListener
 import com.example.foodyrecipes.util.NetworkResult
+import com.example.foodyrecipes.util.submitQueryText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -71,10 +71,10 @@ class FoodRecipesFragment : Fragment() {
 
         viewModel.networkStatus.observe(viewLifecycleOwner) {
             if (it) {
-                viewModel.getRecipes()
+                //viewModel.getRecipes()
                 setWifiAnimation(false)
             } else {
-                Toast.makeText(requireContext(), "no internet", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
                 setWifiAnimation(true)
                 stopShimmer()
             }
@@ -84,18 +84,9 @@ class FoodRecipesFragment : Fragment() {
             findNavController().navigate(R.id.action_foodRecipesFragment_to_filterBottomSheet)
         }
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (!query.isNullOrEmpty()) {
-                    searchFoodRecipe(query = query)
-                }
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return true
-            }
-        })
+        binding.searchView.submitQueryText { query ->
+            searchFoodRecipe(query = query)
+        }
 
         adapter.setItemOnClickListener { recipeResult, imageView ->
             val action =
@@ -106,6 +97,7 @@ class FoodRecipesFragment : Fragment() {
             findNavController().navigate(action, extras)
         }
     }
+
 
     private fun observeFoodRecipes() {
         lifecycleScope.launch {
@@ -180,9 +172,9 @@ class FoodRecipesFragment : Fragment() {
     }
 
     private fun setWifiAnimation(visibility: Boolean) {
-        with(binding){
+        with(binding) {
             val animWifi = noInternetConnectionLayout.setAnimation()
-            if(visibility) {
+            if (visibility) {
                 animWifi.startAnimation()
                 noInternetConnectionLayout.visibility = View.VISIBLE
                 return

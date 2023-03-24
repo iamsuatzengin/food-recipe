@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="food"
+            type="com.example.foodyrecipes.data.local.entity.FavoriteEntity" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="@dimen/_8dp"
+        app:cardCornerRadius="@dimen/_16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ivFood"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:contentDescription="@string/food_image"
+                android:scaleType="centerCrop"
+                loadImageFromUrl="@{food.recipeResult.image}"
+                android:transitionName="@{food.recipeResult.image}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <TextView
+                android:id="@+id/tvFoodTitle"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_image_title"
+                android:paddingStart="@dimen/_16dp"
+                android:paddingTop="@dimen/_8dp"
+                android:paddingEnd="@dimen/_16dp"
+                android:text="@{food.recipeResult.title}"
+                android:paddingBottom="@dimen/_8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/ivFood"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="FOOD NAME" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>
