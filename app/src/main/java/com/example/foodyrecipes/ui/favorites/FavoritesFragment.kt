@@ -14,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.foodyrecipes.data.local.entity.FavoriteEntity
 import com.example.foodyrecipes.databinding.FragmentFavoritesBinding
 import com.example.foodyrecipes.ui.favorites.adapter.FavoritesAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,14 +56,23 @@ class FavoritesFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.favorites.collect { list ->
-                    if(list.isEmpty()){
-                        println("liste boş")
-                        return@collect
-                    }
-                    adapter.submitList(list)
+                    setVisibility(list)
                 }
             }
         }
+    }
+
+    private fun setVisibility(list: List<FavoriteEntity>){
+        if(list.isEmpty()){
+            binding.ivEmpty.visibility = View.VISIBLE
+            binding.tvEmpty.visibility = View.VISIBLE
+            binding.recyclerView.visibility = View.INVISIBLE
+            return
+        }
+        adapter.submitList(list)
+        binding.recyclerView.visibility = View.VISIBLE
+        binding.ivEmpty.visibility = View.INVISIBLE
+        binding.tvEmpty.visibility = View.INVISIBLE
     }
 
     private fun setupRecyclerView(){

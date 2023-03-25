@@ -50,4 +50,10 @@
     <string name="wifi_connection_icon">Wifi-Connection Icon</string>
     <string name="filter">Filter</string>
     <string name="food_image">Food Image</string>
+    <string name="no_favorite_recipes_yet">No favorite recipes yet!</string>
+    <string name="empty_list">Empty List</string>
+    <string name="save_favorite">Save Favorite</string>
+    <string name="ready_in_time">Ready In Time</string>
+    <string name="servings">Servings</string>
+    <string name="likes">Likes</string>
 </resources>

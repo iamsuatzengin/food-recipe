@@ -35,6 +35,9 @@ class DetailFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
 
     private val viewModel: DetailViewModel by viewModels()
+
+    private var isSaved: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,13 +70,18 @@ class DetailFragment : Fragment() {
         }.attach()
 
         observeEvent()
+        isSaved()
 
-        with(binding){
-            favoriteButton.setOnClickListener { addFavoriteRecipe() }
+        with(binding) {
+            favoriteButton.setOnClickListener {
+                if(isSaved) deleteFavoriteRecipe()
+                else addFavoriteRecipe()
+            }
         }
+        viewModel.foodIsSaved(args.foodRecipe.id)
     }
 
-    private fun addFavoriteRecipe(){
+    private fun addFavoriteRecipe() {
         val entity = FavoriteEntity(
             id = 0, args.foodRecipe
         )
@@ -81,14 +89,35 @@ class DetailFragment : Fragment() {
         binding.favoriteButton.setImageResource(R.drawable.ic_bookmark_24)
     }
 
-    private fun observeEvent(){
+    private fun deleteFavoriteRecipe(){
+        viewModel.deleteFavoriteRecipe(args.foodRecipe)
+        binding.favoriteButton.setImageResource(R.drawable.ic_bookmark_border_24)
+    }
+
+    private fun observeEvent() {
         lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.eventFlow.collectLatest { event ->
-                    when(event){
+                    when (event) {
                         is UiEvent.ShowMessage -> {
                             showSnackbar(message = event.message)
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun isSaved() {
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isSaved.collectLatest { isFoodSaved ->
+                    isSaved = if (isFoodSaved) {
+                        binding.favoriteButton.setImageResource(R.drawable.ic_bookmark_24)
+                        true
+                    } else {
+                        binding.favoriteButton.setImageResource(R.drawable.ic_bookmark_border_24)
+                        false
                     }
                 }
             }

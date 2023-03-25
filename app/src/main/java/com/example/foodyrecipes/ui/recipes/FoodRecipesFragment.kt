@@ -71,7 +71,7 @@ class FoodRecipesFragment : Fragment() {
 
         viewModel.networkStatus.observe(viewLifecycleOwner) {
             if (it) {
-                //viewModel.getRecipes()
+                viewModel.getRecipes()
                 setWifiAnimation(false)
             } else {
                 Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()

@@ -24,10 +24,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
                 <ImageView
                     android:id="@+id/ivFood"
                     loadImageFromUrl="@{foodRecipe.image}"
+                    android:contentDescription="@{foodRecipe.title}"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:scaleType="centerCrop"
@@ -37,11 +37,13 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:src="@tools:sample/avatars" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/favoriteButton"
+                    android:backgroundTint="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16dp"
+                    android:contentDescription="@string/save_favorite"
                     android:layout_marginEnd="@dimen/_16dp"
                     android:src="@drawable/ic_bookmark_border_24"
                     android:textAllCaps="false"
@@ -92,6 +94,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_4dp"
                             android:src="@drawable/ic_favorite_24"
+                            android:contentDescription="@string/likes"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
@@ -111,6 +114,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_4dp"
                             android:src="@drawable/ic_time_24"
+                            android:contentDescription="@string/ready_in_time"
                             app:layout_constraintEnd_toStartOf="@id/iconServing"
                             app:layout_constraintStart_toEndOf="@+id/iconFavorites"
                             app:layout_constraintTop_toBottomOf="@id/tvTitle" />
@@ -131,6 +135,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_4dp"
                             android:src="@drawable/ic_person_24"
+                            android:contentDescription="@string/servings"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
@@ -155,19 +160,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardViewHeader" />
+                />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+                />
 
         </LinearLayout>
     </ScrollView>
