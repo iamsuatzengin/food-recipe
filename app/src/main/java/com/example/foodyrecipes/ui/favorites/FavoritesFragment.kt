@@ -11,12 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodyrecipes.data.local.entity.FavoriteEntity
 import com.example.foodyrecipes.databinding.FragmentFavoritesBinding
 import com.example.foodyrecipes.ui.favorites.adapter.FavoritesAdapter
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -30,7 +29,7 @@ class FavoritesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: FavoritesViewModel by viewModels()
-    private val adapter: FavoritesAdapter by lazy { FavoritesAdapter() }
+    private val adapter: FavoritesAdapter by lazy { FavoritesAdapter(requireActivity()) }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,14 +50,21 @@ class FavoritesFragment : Fragment() {
 
         setupRecyclerView()
 
-
-
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.favorites.collect { list ->
                     setVisibility(list)
                 }
             }
+        }
+
+        adapter.setOnClickDeleteFood { favoriteEntity, size ->
+            viewModel.deleteFavoriteRecipe(favoriteEntity = favoriteEntity)
+            Snackbar.make(
+                binding.root,
+                "$size food/s deleted!",
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -83,14 +89,6 @@ class FavoritesFragment : Fragment() {
         postponeEnterTransition()
         recyclerView.doOnPreDraw {
             startPostponedEnterTransition()
-        }
-
-        adapter.setOnItemClickListener { favoriteEntity, imageView ->
-            val action = FavoritesFragmentDirections.actionFavoritesFragmentToDetailFragment(favoriteEntity.recipeResult)
-            val extras = FragmentNavigatorExtras(
-                imageView to favoriteEntity.recipeResult.image
-            )
-            findNavController().navigate(action, extras)
         }
     }
 

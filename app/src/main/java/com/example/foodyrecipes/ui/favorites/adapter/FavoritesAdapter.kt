@@ -1,20 +1,29 @@
 package com.example.foodyrecipes.ui.favorites.adapter
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.fragment.app.FragmentActivity
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import com.example.foodyrecipes.R
 import com.example.foodyrecipes.data.local.entity.FavoriteEntity
-import com.example.foodyrecipes.databinding.FavoriteItemBinding
+import com.example.foodyrecipes.ui.favorites.FavoritesFragmentDirections
+import com.google.android.material.card.MaterialCardView
 
-class FavoritesAdapter : ListAdapter<FavoriteEntity, FavoritesViewHolder>(DiffUtilCallback) {
+class FavoritesAdapter(
+    private val requireActivity: FragmentActivity
+) : ListAdapter<FavoriteEntity, FavoritesViewHolder>(DiffUtilCallback) {
 
-    private var onClickListener: ((FavoriteEntity, View) -> Unit)? = null
+    private lateinit var actionMode: ActionMode
 
-    fun setOnItemClickListener(onClick: (FavoriteEntity, View) -> Unit) {
-        onClickListener = onClick
+    private var multiSelection = false
+    private var selectedFoods = arrayListOf<FavoriteEntity>()
+    private var viewHolders = arrayListOf<FavoritesViewHolder>()
+
+    private var onClickDeleteFood: ((FavoriteEntity, Int) -> Unit)? = null
+
+    fun setOnClickDeleteFood(onClick: (FavoriteEntity, Int) -> Unit) {
+        onClickDeleteFood = onClick
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesViewHolder {
@@ -22,8 +31,90 @@ class FavoritesAdapter : ListAdapter<FavoriteEntity, FavoritesViewHolder>(DiffUt
     }
 
     override fun onBindViewHolder(holder: FavoritesViewHolder, position: Int) {
+        viewHolders.add(holder)
+
         val item = getItem(position)
-        holder.bind(item, onClickListener)
+        holder.bind(item)
+
+        val cardLayout = holder.itemView.findViewById<MaterialCardView>(R.id.cardView)
+
+        cardLayout.setOnClickListener {
+            if (multiSelection) {
+                applySelection(holder, item)
+            } else {
+                val action =
+                    FavoritesFragmentDirections.actionFavoritesFragmentToDetailFragment(item.recipeResult)
+                val extras = holder.navigatorExtras(item)
+                holder.itemView.findNavController().navigate(action, extras)
+            }
+        }
+
+        cardLayout.setOnLongClickListener {
+            if (!multiSelection) {
+                multiSelection = true
+                requireActivity.startActionMode(actionModeCallback)
+                applySelection(holder, item)
+                true
+            } else {
+                multiSelection = false
+                false
+            }
+        }
+    }
+
+    private val actionModeCallback = object : ActionMode.Callback {
+        override fun onCreateActionMode(actionMode: ActionMode?, menu: Menu?): Boolean {
+            actionMode?.menuInflater?.inflate(R.menu.favorites_conextual_menu, menu)
+            this@FavoritesAdapter.actionMode = actionMode!!
+            return true
+        }
+
+        override fun onPrepareActionMode(actionMode: ActionMode?, menu: Menu?): Boolean {
+            return true
+        }
+
+        override fun onActionItemClicked(actionMode: ActionMode?, menu: MenuItem?): Boolean {
+            if (menu?.itemId == R.id.delete_favorite) {
+                selectedFoods.forEach {
+                    println("deleted: ${it.recipeResult.title}")
+                    onClickDeleteFood?.invoke(it, selectedFoods.size)
+                }
+
+                multiSelection = false
+                selectedFoods.clear()
+                actionMode?.finish()
+            }
+
+            return true
+        }
+
+        override fun onDestroyActionMode(actionMode: ActionMode?) {
+            viewHolders.forEach { holder ->
+                holder.changeFoodStyle(View.INVISIBLE)
+            }
+            multiSelection = false
+            selectedFoods.clear()
+        }
+    }
+
+    private fun applyActionBarTitle() {
+        if (selectedFoods.size == 0) {
+            actionMode.finish()
+            return
+        }
+        actionMode.title = "${selectedFoods.size} item selected!"
+    }
+
+    private fun applySelection(holder: FavoritesViewHolder, currentFood: FavoriteEntity) {
+        if (selectedFoods.contains(currentFood)) {
+            selectedFoods.remove(currentFood)
+            holder.changeFoodStyle(View.INVISIBLE)
+            applyActionBarTitle()
+        } else {
+            selectedFoods.add(currentFood)
+            holder.changeFoodStyle(View.VISIBLE)
+            applyActionBarTitle()
+        }
     }
 
     companion object DiffUtilCallback : DiffUtil.ItemCallback<FavoriteEntity>() {
@@ -37,24 +128,3 @@ class FavoritesAdapter : ListAdapter<FavoriteEntity, FavoritesViewHolder>(DiffUt
     }
 }
 
-
-class FavoritesViewHolder(
-    private val binding: FavoriteItemBinding
-) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: FavoriteEntity, onClickListener: ((FavoriteEntity, View) -> Unit)?) {
-        binding.food = item
-        binding.cardView.setOnClickListener {
-            onClickListener?.invoke(item, binding.ivFood)
-        }
-        binding.executePendingBindings()
-    }
-
-
-    companion object {
-        fun from(parent: ViewGroup): FavoritesViewHolder {
-            val layoutInflater = LayoutInflater.from(parent.context)
-            val binding = FavoriteItemBinding.inflate(layoutInflater, parent, false)
-            return FavoritesViewHolder(binding)
-        }
-    }
-}

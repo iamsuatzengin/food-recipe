@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="food"
             type="com.example.foodyrecipes.data.local.entity.FavoriteEntity" />
@@ -22,17 +23,29 @@
 
             <ImageView
                 android:id="@+id/ivFood"
+                loadImageFromUrl="@{food.recipeResult.image}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:contentDescription="@string/food_image"
                 android:scaleType="centerCrop"
-                loadImageFromUrl="@{food.recipeResult.image}"
                 android:transitionName="@{food.recipeResult.image}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/backgrounds/scenic" />
+
+            <ImageView
+                android:id="@+id/iconItemSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16dp"
+                android:layout_marginEnd="@dimen/_16dp"
+                android:backgroundTint="@color/green"
+                android:src="@drawable/ic_check_circle_24"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvFoodTitle"
@@ -43,8 +56,8 @@
                 android:paddingStart="@dimen/_16dp"
                 android:paddingTop="@dimen/_8dp"
                 android:paddingEnd="@dimen/_16dp"
-                android:text="@{food.recipeResult.title}"
                 android:paddingBottom="@dimen/_8dp"
+                android:text="@{food.recipeResult.title}"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/ivFood"
                 app:layout_constraintEnd_toEndOf="parent"
