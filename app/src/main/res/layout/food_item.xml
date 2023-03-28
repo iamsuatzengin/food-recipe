@@ -13,6 +13,7 @@
         android:id="@+id/foodCardView"
         android:layout_width="match_parent"
         android:layout_height="250dp"
+        app:cardBackgroundColor="@color/surface"
         android:layout_margin="@dimen/_8dp"
         app:cardCornerRadius="@dimen/_16dp">
 
@@ -39,11 +40,8 @@
                 android:layout_marginHorizontal="@dimen/_8dp"
                 android:layout_marginTop="@dimen/_8dp"
                 android:ellipsize="end"
-                android:maxLines="2"
+                style="@style/Widget.FoodyRecipe.TitleStyle"
                 android:text="@{food.title}"
-                android:textColor="@color/darker"
-                android:textSize="20sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivFood"
                 app:layout_constraintTop_toTopOf="parent"
@@ -55,6 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:maxLines="3"
+                style="@style/Widget.FoodyRecipe.DescriptionStyle"
                 android:text="@{food.summary}"
                 app:layout_constraintEnd_toEndOf="@id/tvTitle"
                 app:layout_constraintStart_toStartOf="@id/tvTitle"

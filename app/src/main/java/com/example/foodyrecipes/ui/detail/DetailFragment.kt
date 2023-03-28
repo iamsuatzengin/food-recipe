@@ -48,6 +48,8 @@ class DetailFragment : Fragment() {
             TransitionInflater.from(context).inflateTransition(android.R.transition.move)
         sharedElementEnterTransition = animation
         postponeEnterTransition(200, TimeUnit.MICROSECONDS)
+
+
         return binding.root
     }
 
@@ -74,7 +76,7 @@ class DetailFragment : Fragment() {
 
         with(binding) {
             favoriteButton.setOnClickListener {
-                if(isSaved) deleteFavoriteRecipe()
+                if (isSaved) deleteFavoriteRecipe()
                 else addFavoriteRecipe()
             }
         }
@@ -89,7 +91,7 @@ class DetailFragment : Fragment() {
         binding.favoriteButton.setImageResource(R.drawable.ic_bookmark_24)
     }
 
-    private fun deleteFavoriteRecipe(){
+    private fun deleteFavoriteRecipe() {
         viewModel.deleteFavoriteRecipe(args.foodRecipe)
         binding.favoriteButton.setImageResource(R.drawable.ic_bookmark_border_24)
     }
