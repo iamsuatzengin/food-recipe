@@ -17,7 +17,7 @@ class AlarmScheduler @Inject constructor(
         val intent = Intent(context, AlarmReceiver::class.java)
         intent.putExtra(REMINDER_INTENT_KEY, message)
 
-        alarmManager.set(
+        alarmManager.setExact(
             AlarmManager.RTC_WAKEUP,
             timeInMillis,
             PendingIntent.getBroadcast(

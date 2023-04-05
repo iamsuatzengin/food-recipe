@@ -44,6 +44,10 @@
         <item name="actionOverflowButtonStyle">@style/Widget.FoodyRecipe.OverflowStyle.Icon</item>
         <item name="actionOverflowMenuStyle">@style/Widget.FoodyRecipe.OverflowStyle</item>
     </style>
+    <style name="Theme.IntroActivtiy" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:statusBarColor">@color/inversePrimary</item>
+    </style>
 
     <style name="Widget.FoodyRecipe.OverflowStyle.Icon" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/onSurface</item>

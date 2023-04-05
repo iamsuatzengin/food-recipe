@@ -89,7 +89,7 @@ class AddShoppingItemFragment : Fragment() {
             selectedDateTimeInMillis = calendar.timeInMillis
 
             scheduler.schedule(
-                message = "Alarm çaldı düt dütt!!",
+                message = "Time to go to shopping 😊",
                 timeInMillis = selectedDateTimeInMillis
             )
         }

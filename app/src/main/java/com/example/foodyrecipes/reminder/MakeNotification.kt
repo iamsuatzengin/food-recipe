@@ -20,7 +20,7 @@ object MakeNotification {
     fun showNotification(context: Context, message: String) {
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_food_joke_24)
-            .setContentText("Foody")
+            .setContentTitle("Foody")
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
