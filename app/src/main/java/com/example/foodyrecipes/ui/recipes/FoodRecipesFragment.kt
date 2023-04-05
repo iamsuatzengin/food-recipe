@@ -73,10 +73,12 @@ class FoodRecipesFragment : Fragment() {
             if (it) {
                 viewModel.getRecipes()
                 setWifiAnimation(false)
+                binding.recyclerView.visibility = View.VISIBLE
             } else {
                 Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
                 setWifiAnimation(true)
                 stopShimmer()
+                binding.recyclerView.visibility = View.INVISIBLE
             }
         }
 
@@ -109,12 +111,8 @@ class FoodRecipesFragment : Fragment() {
                         }
                         is NetworkResult.Success -> {
                             if (result.data?.results.isNullOrEmpty()) println("liste boş")
-                            else {
-                                result.data?.results!!.forEach {
-                                    println("name: ${it.title}")
-                                    adapter.submitList(result.data.results)
-                                }
-                            }
+                            else adapter.submitList(result.data?.results!!)
+
                             stopShimmer()
                         }
                         is NetworkResult.Error -> {

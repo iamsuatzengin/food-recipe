@@ -1,4 +1,4 @@
-package com.example.foodyrecipes.data.local
+package com.example.foodyrecipes.data.local.dao
 
 import androidx.room.*
 import com.example.foodyrecipes.data.local.entity.FavoriteEntity

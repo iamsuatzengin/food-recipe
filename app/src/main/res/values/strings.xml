@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FoodyRecipes</string>
+    <string name="app_name">Foody Recipes</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -56,4 +56,8 @@
     <string name="ready_in_time">Ready In Time</string>
     <string name="servings">Servings</string>
     <string name="likes">Likes</string>
+    <string name="title">Title</string>
+    <string name="reminder">Reminder</string>
+    <string name="delete">Delete</string>
+    <string name="shopping_list">Shopping List</string>
 </resources>

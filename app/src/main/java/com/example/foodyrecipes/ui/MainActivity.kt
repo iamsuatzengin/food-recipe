@@ -1,6 +1,7 @@
 package com.example.foodyrecipes.ui
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -25,10 +26,20 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.foodRecipesFragment, R.id.favoritesFragment
+            R.id.foodRecipesFragment, R.id.shoppingListFragment, R.id.favoritesFragment
         ))
         binding.bottomNavigationView.setupWithNavController(navController)
 
+        navController.addOnDestinationChangedListener{_, destination, _ ->
+            when(destination.id){
+                R.id.addShoppingItemFragment -> {
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
+                else -> {
+                    binding.bottomNavigationView.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

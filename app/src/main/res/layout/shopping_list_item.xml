@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.example.foodyrecipes.data.local.entity.ShoppingEntity" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/itemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8dp"
+        android:elevation="@dimen/_4dp"
+        app:cardBackgroundColor="@color/surface"
+        app:cardCornerRadius="@dimen/_16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/_8dp">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/Widget.FoodyRecipe.TitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.title}"
+                tools:text="Alınacaklar" />
+
+            <TextView
+                android:id="@+id/tvList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="@dimen/_8dp"
+                android:maxLines="7"
+                android:minLines="3"
+                android:text="@{item.shoppingList}"
+                tools:text="1-Birinci alınacak,\n2-ikinci alınacakfwelfkjjkwenfkjkjfewbkjefwfb\n3-alınacak\n4-alınacak\n5-alınacak\n6-alınacak\n7-alınacak" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

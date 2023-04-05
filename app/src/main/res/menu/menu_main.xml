@@ -6,6 +6,12 @@
         android:id="@+id/foodRecipesFragment"
         android:icon="@drawable/ic_menu_book_24"
         android:title="@string/recipes" />
+
+    <item
+        android:id="@+id/shoppingListFragment"
+        android:icon="@drawable/ic_list_24"
+        android:title="@string/shopping_list"/>
+
     <item
         android:id="@+id/favoritesFragment"
         android:icon="@drawable/ic_favorite_24"

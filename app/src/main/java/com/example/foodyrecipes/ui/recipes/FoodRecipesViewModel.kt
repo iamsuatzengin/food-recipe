@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodyrecipes.data.data_store.DataStoreRepository
 import com.example.foodyrecipes.data.network.dto.FoodRecipe
-import com.example.foodyrecipes.data.repository.FoodRecipeRepository
+import com.example.foodyrecipes.repository.FoodRecipeRepository
 import com.example.foodyrecipes.di.IoDispatchers
 import com.example.foodyrecipes.util.Constants
 import com.example.foodyrecipes.util.Constants.QUERY_SEARCH

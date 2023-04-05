@@ -1,4 +1,4 @@
-package com.example.foodyrecipes.data.repository
+package com.example.foodyrecipes.repository
 
 import com.example.foodyrecipes.util.NetworkResult
 import com.example.foodyrecipes.data.network.dto.FoodRecipe

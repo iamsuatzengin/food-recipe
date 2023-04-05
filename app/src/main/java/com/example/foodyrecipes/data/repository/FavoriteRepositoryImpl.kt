@@ -1,9 +1,10 @@
 package com.example.foodyrecipes.data.repository
 
 import android.util.Log
-import com.example.foodyrecipes.data.local.FavoriteDao
+import com.example.foodyrecipes.data.local.dao.FavoriteDao
 import com.example.foodyrecipes.data.local.entity.FavoriteEntity
 import com.example.foodyrecipes.di.IoDispatchers
+import com.example.foodyrecipes.repository.FavoriteRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

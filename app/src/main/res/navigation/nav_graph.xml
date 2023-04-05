@@ -45,4 +45,24 @@
             android:name="foodRecipe"
             app:argType="com.example.foodyrecipes.data.network.dto.RecipeResult" />
     </fragment>
+    <fragment
+        android:id="@+id/shoppingListFragment"
+        android:name="com.example.foodyrecipes.ui.shopping_list.ShoppingListFragment"
+        android:label="fragment_shopping_list"
+        tools:layout="@layout/fragment_shopping_list" >
+        <action
+            android:id="@+id/action_shoppingListFragment_to_addShoppingItemFragment"
+            app:destination="@id/addShoppingItemFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addShoppingItemFragment"
+        android:name="com.example.foodyrecipes.ui.add_shopping_item.AddShoppingItemFragment"
+        android:label="fragment_add_shopping_item"
+        tools:layout="@layout/fragment_add_shopping_item" >
+        <argument
+            android:name="shoppingEntity"
+            app:argType="com.example.foodyrecipes.data.local.entity.ShoppingEntity"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 </navigation>

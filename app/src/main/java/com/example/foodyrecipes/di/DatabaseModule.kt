@@ -2,8 +2,9 @@ package com.example.foodyrecipes.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.foodyrecipes.data.local.FavoriteDao
+import com.example.foodyrecipes.data.local.dao.FavoriteDao
 import com.example.foodyrecipes.data.local.RecipeDatabase
+import com.example.foodyrecipes.data.local.dao.ShoppingDao
 import com.example.foodyrecipes.util.Constants.RECIPE_DB_NAME
 import dagger.Module
 import dagger.Provides
@@ -23,6 +24,10 @@ object DatabaseModule {
 
     @Provides
     @Singleton
+    fun provideShoppingDao(db: RecipeDatabase): ShoppingDao = db.shoppingDao()
+
+    @Provides
+    @Singleton
     fun provideDatabase(
         @ApplicationContext context: Context
     ): RecipeDatabase {
@@ -30,6 +35,8 @@ object DatabaseModule {
             context,
             RecipeDatabase::class.java,
             RECIPE_DB_NAME
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }

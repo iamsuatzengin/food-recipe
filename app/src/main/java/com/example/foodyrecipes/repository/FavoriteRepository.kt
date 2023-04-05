@@ -1,4 +1,4 @@
-package com.example.foodyrecipes.data.repository
+package com.example.foodyrecipes.repository
 
 import com.example.foodyrecipes.data.local.entity.FavoriteEntity
 import kotlinx.coroutines.flow.Flow

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodyrecipes.data.local.entity.FavoriteEntity
 import com.example.foodyrecipes.data.network.dto.RecipeResult
-import com.example.foodyrecipes.data.repository.FavoriteRepository
+import com.example.foodyrecipes.repository.FavoriteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

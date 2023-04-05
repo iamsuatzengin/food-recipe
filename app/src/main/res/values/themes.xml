@@ -41,7 +41,24 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
+        <item name="actionOverflowButtonStyle">@style/Widget.FoodyRecipe.OverflowStyle.Icon</item>
+        <item name="actionOverflowMenuStyle">@style/Widget.FoodyRecipe.OverflowStyle</item>
     </style>
+
+    <style name="Widget.FoodyRecipe.OverflowStyle.Icon" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/onSurface</item>
+    </style>
+
+    <style name="Widget.FoodyRecipe.OverflowStyle" parent="Widget.Material3.PopupMenu.ListPopupWindow">
+    </style>
+
+    <style name="Widget.FoodyRecipe.ToolbarStyle" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:backgroundTint">@color/background</item>
+        <item name="titleTextColor">@color/onBackground</item>
+        <item name="menu">@menu/favorites_conextual_menu</item>
+        <item name="layout_scrollFlags">scroll|enterAlways|snap</item>
+    </style>
+
 
     <style name="Widget.FoodyRecipe.SearchView" parent="Widget.AppCompat.SearchView">
         <item name="iconifiedByDefault">false</item>
